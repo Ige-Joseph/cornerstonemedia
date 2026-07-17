@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+Allow: /gallery
+Allow: /about
+
+# Block admin panel from indexing
+Disallow: /admin/
+Disallow: /admin/login
+Disallow: /admin/dashboard
+Disallow: /admin/gallery
+Disallow: /admin/bookings
+Disallow: /admin/invoices
+
+# Block API from crawling (backend handles its own robots)
+Disallow: /api/
+
+Sitemap: https://cornerstonemedia.com/sitemap.xml
