@@ -1,8 +1,24 @@
 import type { Metadata, Viewport } from 'next';
+import { Barlow, Cormorant_Garamond } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/layout/ThemeProvider';
 import WhatsAppButton from '@/components/ui/WhatsAppButton';
 import { Toaster } from 'react-hot-toast';
+
+const headingFont = Cormorant_Garamond({
+  subsets: ['latin'],
+  variable: '--font-heading',
+  weight: ['300', '400', '600', '700'],
+  style: ['normal', 'italic'],
+  display: 'swap',
+});
+
+const bodyFont = Barlow({
+  subsets: ['latin'],
+  variable: '--font-body',
+  weight: ['300', '400', '500', '600'],
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Corner Stone Media | Photography & Videography',
@@ -29,7 +45,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={`${headingFont.variable} ${bodyFont.variable}`}>
       <head>
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="mobile-web-app-capable" content="yes" />

@@ -156,11 +156,10 @@ function Navbar() {
 export default function HeroSection() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
-  // Reduced Y travel (12% vs 26%) so content doesn't travel far enough to
-  // overlap the next section. Opacity completes by 55% scroll so text is
-  // fully invisible well before the section boundary is reached.
-  const contentY       = useTransform(scrollYProgress, [0, 1], ['0%', '12%']);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
+  // Keep the hero readable through most of its scroll range, then let all
+  // foreground content leave together close to the section boundary.
+  const contentY       = useTransform(scrollYProgress, [0, 0.72, 1], ['0%', '0%', '5%']);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.72, 0.96], [1, 1, 0]);
 
   const fi = (delay: number) => ({
     initial: { filter: 'blur(10px)', opacity: 0, y: 22 },
@@ -176,7 +175,7 @@ export default function HeroSection() {
            overflow:hidden clips any parallax movement at the section boundary. */}
       <section
         ref={ref}
-        className="relative min-h-screen flex flex-col overflow-hidden"
+        className="relative min-h-[max(100svh,760px)] flex flex-col overflow-hidden"
         style={{ background: '#060608', isolation: 'isolate', zIndex: 0 }}>
 
         {/* 3D cinematic canvas */}
@@ -231,10 +230,10 @@ export default function HeroSection() {
           <motion.div {...fi(1.28)} className="flex items-stretch gap-4 flex-wrap justify-center">
             {[
               { icon: <ClockSVG />, value: '500+', label: 'Sessions Delivered' },
-              { icon: <GlobeSVG />, value: '8 Yrs', label: 'Behind the Lens' },
+              { icon: <GlobeSVG />, value: 'Photo + Film', label: 'Complete Storytelling' },
             ].map(s => (
               <div key={s.label} className="liquid-glass rounded-[1.25rem] p-5 flex flex-col gap-3" style={{ minWidth: 190 }}>
-                <div className="w-7 h-7 text-white/70">{s.icon}</div>
+                <div className="w-7 h-7 self-center text-white/70">{s.icon}</div>
                 <div>
                   <div className="text-[2.5rem] font-heading italic text-white leading-none tracking-[-1px]">{s.value}</div>
                   <div className="text-xs text-white/45 font-body font-light mt-1.5">{s.label}</div>
@@ -246,9 +245,10 @@ export default function HeroSection() {
 
         {/* Partners — trusted chip + auto-scrolling ticker */}
         <motion.div
-          initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+          style={{ opacity: contentOpacity }}
+          initial={{ y: 10 }} animate={{ y: 0 }}
           transition={{ delay: 1.4, duration: 0.8 }}
-          className="relative z-10 flex flex-col items-center gap-4 pb-10 mt-auto">
+          className="relative z-10 flex flex-col items-center gap-4 pb-12 mt-auto">
 
           {/* Chip label */}
           <div className="liquid-glass rounded-full px-4 py-1.5 text-xs font-medium font-body text-white/45">
@@ -259,25 +259,13 @@ export default function HeroSection() {
           <PartnersTicker />
         </motion.div>
 
-        {/* Scroll cue */}
-        <motion.div
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.2 }}
-          className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5">
-          <span className="text-[10px] tracking-[0.3em] uppercase text-white/25 font-body">Scroll</span>
-          <motion.div
-            animate={{ y: [0, 7, 0] }}
-            transition={{ repeat: Infinity, duration: 1.9, ease: 'easeInOut' }}
-            className="w-px h-8"
-            style={{ background: 'linear-gradient(180deg, rgba(200,144,26,0.55), transparent)' }} />
-        </motion.div>
-
         {/* Bottom section-transition fade — masks any content that
             would otherwise peek above the services section edge */}
         <div
           className="absolute bottom-0 left-0 right-0 pointer-events-none"
           style={{
-            height: '180px',
-            zIndex: 20,
+            height: '72px',
+            zIndex: 2,
             background: 'linear-gradient(180deg, transparent 0%, #060608 100%)',
           }}
         />

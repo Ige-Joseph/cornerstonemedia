@@ -10,8 +10,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        heading: ['Cormorant Garamond', 'Georgia', 'serif'],
-        body: ['Barlow', 'system-ui', 'sans-serif'],
+        heading: ['var(--font-heading)', 'Cormorant Garamond', 'Georgia', 'serif'],
+        body: ['var(--font-body)', 'Barlow', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         DEFAULT: '9999px',

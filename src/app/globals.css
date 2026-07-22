@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Barlow:wght@300;400;500;600&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -20,7 +18,7 @@
 html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 
 body {
-  font-family: 'Barlow', system-ui, sans-serif;
+  font-family: var(--font-body), 'Barlow', system-ui, sans-serif;
   background: var(--obsidian);
   color: var(--text);
   -webkit-font-smoothing: antialiased;

@@ -21,7 +21,7 @@ const services = [
 ];
 
 export default function ServicesSection() {
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.06 });
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.04 });
 
   return (
     <section id="services" className="section-padding relative overflow-hidden" style={{ background: '#060608', position: 'relative', zIndex: 1 }}>
@@ -38,21 +38,26 @@ export default function ServicesSection() {
       <div className="absolute inset-0 pointer-events-none z-[2]"
         style={{ background: 'radial-gradient(ellipse 80% 80% at 50% 50%, rgba(6,6,8,0.1) 0%, rgba(6,6,8,0.85) 100%)' }} />
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+      <div ref={ref} className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
         {/* Header */}
-        <div className="mb-16">
-          <p className="text-xs tracking-[0.35em] uppercase font-medium mb-5 font-body" style={{ color: '#c8901a' }}>
+        <motion.div
+          initial={{ opacity: 0, y: 34 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-16">
+          <p className="text-xs tracking-[0.28em] md:tracking-[0.35em] uppercase font-medium mb-5 font-body" style={{ color: '#c8901a' }}>
             // What We Offer
           </p>
-          <h2 className="font-heading italic text-white leading-[0.9] tracking-[-3px] mb-4"
-            style={{ fontSize: 'clamp(3rem,7vw,5.5rem)' }}>
-            Production<br />evolved
+          <h2 className="font-heading text-white leading-[0.94] tracking-[-1px] md:tracking-[-2px] mb-5"
+            style={{ fontSize: 'clamp(3.25rem,7vw,5.75rem)' }}>
+            <span className="block font-light">Production</span>
+            <span className="block italic font-normal text-gold-shimmer pl-[0.28em]">evolved</span>
           </h2>
           <div className="gold-divider" />
-        </div>
+        </motion.div>
 
         {/* Grid */}
-        <div ref={ref} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {services.map((service, i) => {
             const Icon = service.icon;
             return (
